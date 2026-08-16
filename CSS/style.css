@@ -1,0 +1,1280 @@
+/* =========================================
+   FORGEX INDUSTRIES
+   MAIN STYLESHEET
+========================================= */
+
+
+/* =========================================
+   1. ROOT VARIABLES
+========================================= */
+
+:root {
+
+    --primary: #2563eb;
+    --primary-dark: #1d4ed8;
+
+    --background: #080d17;
+    --background-light: #0f172a;
+    --surface: #111827;
+
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+
+    --border: rgba(148, 163, 184, 0.15);
+
+    --container-width: 1200px;
+
+}
+
+
+/* =========================================
+   2. GLOBAL RESET
+========================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+/* =========================================
+   3. HTML
+========================================= */
+
+html {
+    scroll-behavior: smooth;
+}
+
+
+/* =========================================
+   4. BODY
+========================================= */
+
+body {
+
+    font-family: Arial, Helvetica, sans-serif;
+
+    background: var(--background);
+
+    color: var(--text-primary);
+
+    line-height: 1.6;
+
+    overflow-x: hidden;
+
+}
+
+
+/* =========================================
+   5. GENERAL ELEMENTS
+========================================= */
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+button,
+input,
+textarea {
+    font-family: inherit;
+}
+
+
+/* =========================================
+   6. CONTAINER
+========================================= */
+
+.container {
+
+    width: 90%;
+
+    max-width: var(--container-width);
+
+    margin: 0 auto;
+
+}
+
+
+/* =========================================
+   7. SECTION
+========================================= */
+
+.section {
+
+    padding: 120px 0;
+
+}
+
+
+/* =========================================
+   8. NAVBAR
+========================================= */
+
+.navbar {
+
+    position: fixed;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+
+    z-index: 1000;
+
+    background: rgba(8, 13, 23, 0.85);
+
+    backdrop-filter: blur(15px);
+
+    border-bottom: 1px solid var(--border);
+
+}
+
+
+.navbar-container {
+
+    min-height: 80px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 30px;
+
+}
+
+
+/* =========================================
+   9. LOGO
+========================================= */
+
+.logo {
+
+    display: flex;
+
+    flex-direction: column;
+
+    font-size: 20px;
+
+    font-weight: 800;
+
+    letter-spacing: 2px;
+
+}
+
+
+.logo span {
+
+    font-size: 9px;
+
+    color: var(--text-secondary);
+
+    letter-spacing: 4px;
+
+}
+
+
+/* =========================================
+   10. NAVIGATION
+========================================= */
+
+.nav-menu {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 30px;
+
+}
+
+
+.nav-menu a {
+
+    color: var(--text-secondary);
+
+    font-size: 14px;
+
+    transition: 0.3s ease;
+
+}
+
+
+.nav-menu a:hover {
+
+    color: var(--text-primary);
+
+}
+
+
+/* =========================================
+   11. NAV BUTTON
+========================================= */
+
+.nav-button {
+
+    padding: 12px 20px;
+
+    background: var(--primary);
+
+    border-radius: 4px;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    transition: 0.3s ease;
+
+}
+
+
+.nav-button:hover {
+
+    background: var(--primary-dark);
+
+    transform: translateY(-2px);
+
+}
+
+
+/* =========================================
+   12. HERO
+========================================= */
+
+.hero {
+
+    min-height: 100vh;
+
+    padding-top: 80px;
+
+    position: relative;
+
+    display: flex;
+
+    align-items: center;
+
+    overflow: hidden;
+
+}
+
+
+/* Background glow */
+
+.hero::before {
+
+    content: "";
+
+    position: absolute;
+
+    width: 600px;
+
+    height: 600px;
+
+    background: rgba(37, 99, 235, 0.12);
+
+    filter: blur(120px);
+
+    border-radius: 50%;
+
+    top: 10%;
+
+    right: 10%;
+
+    pointer-events: none;
+
+}
+
+
+.hero-container {
+
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    align-items: center;
+
+    gap: 50px;
+
+}
+
+
+/* =========================================
+   13. HERO CONTENT
+========================================= */
+
+.hero-content {
+
+    position: relative;
+
+    z-index: 2;
+
+}
+
+
+.hero-label {
+
+    color: var(--primary);
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    letter-spacing: 3px;
+
+    margin-bottom: 20px;
+
+}
+
+
+.hero h1 {
+
+    font-size: clamp(50px, 6vw, 82px);
+
+    line-height: 1.05;
+
+    letter-spacing: -3px;
+
+    margin-bottom: 25px;
+
+}
+
+
+.hero h1 span {
+
+    display: block;
+
+    color: var(--primary);
+
+}
+
+
+.hero-description {
+
+    max-width: 520px;
+
+    color: var(--text-secondary);
+
+    font-size: 17px;
+
+    margin-bottom: 35px;
+
+}
+
+
+/* =========================================
+   14. HERO BUTTONS
+========================================= */
+
+.hero-buttons {
+
+    display: flex;
+
+    gap: 15px;
+
+    flex-wrap: wrap;
+
+}
+
+
+.btn {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 14px 24px;
+
+    border-radius: 4px;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    transition: 0.3s ease;
+
+}
+
+
+.btn-primary {
+
+    background: var(--primary);
+
+    color: white;
+
+}
+
+
+.btn-primary:hover {
+
+    background: var(--primary-dark);
+
+    transform: translateY(-2px);
+
+}
+
+
+.btn-secondary {
+
+    border: 1px solid var(--border);
+
+    color: var(--text-primary);
+
+}
+
+
+.btn-secondary:hover {
+
+    background: rgba(255, 255, 255, 0.05);
+
+}
+/* 3D ARM VISIBILITY FIX */
+.hero-3d {
+    width: 100%;
+    min-height: 500px;
+    height: 600px;
+    position: relative;
+    z-index: 10;
+}
+
+#three-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    z-index: 10;
+}
+
+#three-container canvas {
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+}
+
+/* =========================================
+   15. 3D HERO AREA
+========================================= */
+
+.hero-3d {
+
+    width: 100%;
+
+    height: 600px;
+
+    position: relative;
+
+}
+
+
+#three-container {
+
+    width: 100%;
+
+    height: 100%;
+
+}
+
+
+/* =========================================
+   16. SECTION HEADING
+========================================= */
+
+.section-heading {
+
+    max-width: 700px;
+
+    margin-bottom: 60px;
+
+}
+
+
+.section-label {
+
+    color: var(--primary);
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    letter-spacing: 3px;
+
+    margin-bottom: 15px;
+
+}
+
+
+.section-heading h2 {
+
+    font-size: clamp(38px, 5vw, 60px);
+
+    line-height: 1.1;
+
+    letter-spacing: -2px;
+
+}
+
+
+.section-heading h2 span {
+
+    color: var(--primary);
+
+}
+
+
+/* =========================================
+   17. ABOUT
+========================================= */
+
+.about {
+    background: var(--background-light);
+}
+
+
+/* =========================================
+   ABOUT CONTENT
+========================================= */
+
+.about-content {
+    display: grid;
+
+    grid-template-columns: 1fr 0.85fr;
+
+    gap: 60px;
+
+    align-items: center;
+}
+
+
+/* =========================================
+   ABOUT TEXT
+========================================= */
+
+.about-text p {
+    color: var(--text-secondary);
+
+    margin-bottom: 20px;
+
+    font-size: 16px;
+
+    line-height: 1.8;
+}
+
+
+/* =========================================
+   ABOUT FACTORY IMAGE
+========================================= */
+
+.factory-image {
+    width: 100%;
+
+    max-width: 500px;
+
+    height: 300px;
+
+    overflow: hidden;
+
+    border-radius: 18px;
+
+    position: relative;
+
+    justify-self: end;
+
+    border: 1px solid var(--border);
+
+    box-shadow:
+        0 15px 40px rgba(0, 0, 0, 0.12);
+
+    transition:
+        transform 0.4s ease,
+        border-color 0.4s ease,
+        box-shadow 0.4s ease;
+}
+
+
+/* =========================================
+   FACTORY IMAGE
+========================================= */
+
+.factory-image img {
+    width: 100%;
+
+    height: 100%;
+
+    display: block;
+
+    object-fit: cover;
+
+    object-position: center;
+
+    transition:
+        transform 0.7s ease,
+        filter 0.7s ease;
+}
+
+
+/* =========================================
+   IMAGE OVERLAY
+========================================= */
+
+.factory-image::after {
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    background:
+        linear-gradient(
+            to top,
+            rgba(3, 8, 18, 0.45),
+            transparent 65%
+        );
+
+    pointer-events: none;
+}
+
+
+/* =========================================
+   IMAGE HOVER
+========================================= */
+
+.factory-image:hover {
+    transform: translateY(-5px);
+
+    border-color: rgba(37, 99, 235, 0.6);
+
+    box-shadow:
+        0 20px 50px rgba(37, 99, 235, 0.15);
+}
+
+
+.factory-image:hover img {
+    transform: scale(1.07);
+
+    filter: brightness(1.08);
+}
+
+
+/* =========================================
+   18. STATS
+========================================= */
+
+.about-stats {
+    display: grid;
+
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 16px;
+
+    margin-top: 35px;
+}
+
+
+.stat {
+    padding: 24px;
+
+    border: 1px solid var(--border);
+
+    background: rgba(255, 255, 255, 0.02);
+
+    border-radius: 12px;
+
+    transition:
+        transform 0.3s ease,
+        border-color 0.3s ease,
+        background 0.3s ease;
+}
+
+
+.stat:hover {
+    transform: translateY(-4px);
+
+    border-color: rgba(37, 99, 235, 0.5);
+
+    background: rgba(37, 99, 235, 0.04);
+}
+
+
+.stat h3 {
+    font-size: 38px;
+
+    color: var(--primary);
+
+    margin-bottom: 5px;
+}
+
+
+.stat p {
+    color: var(--text-secondary);
+
+    font-size: 13px;
+
+    margin: 0;
+}
+
+/* =========================================
+   19. CAPABILITIES
+========================================= */
+
+.capability-grid {
+
+    display: grid;
+
+    grid-template-columns: repeat(4, 1fr);
+
+    gap: 20px;
+
+}
+
+
+.capability-card {
+
+    min-height: 300px;
+
+    padding: 30px;
+
+    border: 1px solid var(--border);
+
+    background: var(--surface);
+
+    transition: 0.4s ease;
+
+}
+
+
+.capability-card:hover {
+
+    transform: translateY(-8px);
+
+    border-color: rgba(37, 99, 235, 0.5);
+
+}
+
+
+.card-number {
+
+    color: var(--primary);
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+}
+
+
+.capability-card h3 {
+
+    margin-top: 100px;
+
+    margin-bottom: 15px;
+
+    font-size: 21px;
+
+}
+
+
+.capability-card p {
+
+    color: var(--text-secondary);
+
+    font-size: 14px;
+
+}
+
+
+/* =========================================
+   20. PRODUCTS
+========================================= */
+
+.products {
+
+    background: var(--background-light);
+
+}
+
+
+.product-grid {
+
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 25px;
+
+}
+
+
+.product-card {
+
+    background: var(--surface);
+
+    border: 1px solid var(--border);
+
+    overflow: hidden;
+
+    transition: 0.4s ease;
+
+}
+
+
+.product-card:hover {
+
+    transform: translateY(-8px);
+
+}
+
+
+.product-image {
+
+    height: 280px;
+
+    overflow: hidden;
+
+    background: #0b1220;
+
+}
+
+
+.product-image img {
+
+    width: 100%;
+
+    height: 100%;
+
+    object-fit: cover;
+
+    transition: 0.5s ease;
+
+}
+
+
+.product-card:hover img {
+
+    transform: scale(1.05);
+
+}
+
+
+.product-info {
+
+    padding: 25px;
+
+}
+
+
+.product-info > p {
+
+    color: var(--primary);
+
+    font-size: 12px;
+
+}
+
+
+.product-info h3 {
+
+    margin: 8px 0 15px;
+
+    font-size: 22px;
+
+}
+
+
+.product-info a {
+
+    color: var(--text-secondary);
+
+    font-size: 13px;
+
+}
+
+
+/* =========================================
+   21. INDUSTRIES
+========================================= */
+
+.industry-grid {
+
+    display: grid;
+
+    grid-template-columns: repeat(4, 1fr);
+
+    border-top: 1px solid var(--border);
+
+    border-left: 1px solid var(--border);
+
+}
+
+
+.industry-item {
+
+    min-height: 220px;
+
+    padding: 30px;
+
+    display: flex;
+
+    align-items: flex-end;
+
+    border-right: 1px solid var(--border);
+
+    border-bottom: 1px solid var(--border);
+
+    transition: 0.4s ease;
+
+}
+
+
+.industry-item:hover {
+
+    background: var(--primary);
+
+}
+
+
+.industry-item h3 {
+
+    font-size: 24px;
+
+}
+
+
+/* =========================================
+   22. CONTACT
+========================================= */
+
+.contact {
+
+    background: var(--background-light);
+
+}
+
+
+.contact-container {
+
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 80px;
+
+}
+
+
+.contact-content h2 {
+
+    font-size: clamp(40px, 5vw, 65px);
+
+    line-height: 1.1;
+
+    margin: 20px 0;
+
+}
+
+
+.contact-content h2 span {
+
+    color: var(--primary);
+
+}
+
+
+.contact-content > p:last-child {
+
+    color: var(--text-secondary);
+
+    max-width: 500px;
+
+}
+
+
+/* =========================================
+   23. CONTACT FORM
+========================================= */
+
+.contact-form {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 15px;
+
+}
+
+
+.contact-form input,
+.contact-form textarea {
+
+    width: 100%;
+
+    padding: 16px;
+
+    border: 1px solid var(--border);
+
+    background: var(--surface);
+
+    color: white;
+
+    outline: none;
+
+    border-radius: 3px;
+
+}
+
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+
+    border-color: var(--primary);
+
+}
+
+
+.contact-form textarea {
+
+    resize: vertical;
+
+}
+
+
+/* =========================================
+   24. FOOTER
+========================================= */
+
+.footer {
+
+    padding: 50px 0;
+
+    border-top: 1px solid var(--border);
+
+}
+
+
+.footer-content {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 30px;
+
+}
+
+
+.footer p {
+
+    color: var(--text-secondary);
+
+    font-size: 13px;
+
+    margin-top: 8px;
+
+}
+
+
+
+
+
+
+/* =========================================
+   MOBILE MENU BUTTON
+========================================= */
+
+.menu-toggle {
+
+    display: none;
+
+    background: transparent;
+
+    border: none;
+
+    color: var(--text-primary);
+
+    font-size: 28px;
+
+    cursor: pointer;
+
+}
+
+/* =========================================
+   PREMIUM INDUSTRY CARDS
+========================================= */
+
+.industry-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+}
+
+.industry-item {
+    position: relative;
+    height: 300px;
+    overflow: hidden;
+    border-radius: 18px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: #0b1220;
+    cursor: pointer;
+    isolation: isolate;
+}
+
+/* Image */
+
+.industry-image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.industry-image img {
+    width: 100%;
+    height: 100%;
+    display: block;
+
+    object-fit: cover;
+    object-position: center;
+
+    transition:
+        transform 0.7s ease,
+        filter 0.7s ease;
+}
+
+
+/* Dark premium overlay */
+
+.industry-item::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+
+    background:
+        linear-gradient(
+            to top,
+            rgba(3, 8, 18, 0.95) 0%,
+            rgba(3, 8, 18, 0.55) 45%,
+            rgba(3, 8, 18, 0.10) 100%
+        );
+
+    z-index: 1;
+}
+
+
+/* Industry title */
+
+.industry-item h3 {
+    position: absolute;
+
+    left: 28px;
+    bottom: 24px;
+
+    margin: 0;
+
+    color: #ffffff;
+    font-size: 25px;
+    font-weight: 600;
+
+    z-index: 2;
+
+    transition:
+        transform 0.4s ease,
+        color 0.4s ease;
+}
+
+
+/* Small blue line */
+
+.industry-item h3::before {
+    content: "";
+
+    display: block;
+
+    width: 35px;
+    height: 3px;
+
+    margin-bottom: 12px;
+
+    background: #2563eb;
+
+    transition: width 0.4s ease;
+}
+
+
+/* Hover */
+
+.industry-item:hover .industry-image img {
+    transform: scale(1.08);
+    filter: brightness(0.85);
+}
+
+.industry-item:hover h3 {
+    transform: translateY(-5px);
+}
+
+.industry-item:hover h3::before {
+    width: 60px;
+}
+
+
+/* Hover border */
+
+.industry-item:hover {
+    border-color: rgba(37, 99, 235, 0.6);
+}
+
+
+/* =================================
+   FOOTER SOCIAL ICONS
+================================= */
+
+.footer-social {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.footer-social .social-btn {
+  width: 32px;
+  height: 32px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #ffffff;
+  text-decoration: none;
+
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 50%;
+
+  transition: all 0.3s ease;
+}
+
+.footer-social .social-btn svg {
+  width: 17px;
+  height: 17px;
+  display: block;
+}
+
+.footer-social .social-btn:hover {
+  background: #0a66c2;
+  border-color: #0a66c2;
+  color: #ffffff;
+  transform: translateY(-2px);
+}
+
+/* =========================================
+   END
+========================================= */
