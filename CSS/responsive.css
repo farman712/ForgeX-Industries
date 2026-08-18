@@ -3,22 +3,14 @@
    RESPONSIVE STYLES
 ========================================= */
 
-
 /* =========================================
    TABLET
    Screens below 1100px
 ========================================= */
-
 @media (max-width: 1100px) {
-
-    /* Container */
-
     .container {
         width: 92%;
     }
-
-
-    /* Navbar */
 
     .nav-menu {
         gap: 18px;
@@ -28,43 +20,36 @@
         font-size: 13px;
     }
 
-
-    /* Hero */
-
     .hero-container {
         gap: 30px;
     }
 
     .hero h1 {
-        font-size: 58px;
+        font-size: 56px;
     }
-
-
-    /* Capabilities */
 
     .capability-grid {
         grid-template-columns: repeat(2, 1fr);
     }
 
-
-    /* Industries */
-
     .industry-grid {
         grid-template-columns: repeat(2, 1fr);
     }
 
-}
+    .product-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
 
+    .footer-content {
+        grid-template-columns: 1fr 1fr;
+    }
+}
 
 /* =========================================
    TABLET / SMALL LAPTOP
    Screens below 900px
 ========================================= */
-
 @media (max-width: 900px) {
-
-    /* Navbar */
-
     .nav-menu {
         gap: 15px;
     }
@@ -72,9 +57,6 @@
     .nav-button {
         padding: 10px 15px;
     }
-
-
-    /* Hero */
 
     .hero-container {
         grid-template-columns: 1fr;
@@ -92,76 +74,83 @@
     }
 
     .hero-3d {
-        height: 450px;
+        height: 400px;
     }
-
-
-    /* About */
 
     .about-content {
         grid-template-columns: 1fr;
         gap: 50px;
     }
 
-
-    /* Contact */
-
     .contact-container {
         grid-template-columns: 1fr;
         gap: 50px;
     }
 
+    .modal-grid {
+        grid-template-columns: 1fr;
+    }
 }
-
 
 /* =========================================
    MOBILE
    Screens below 768px
 ========================================= */
-
 @media (max-width: 768px) {
-
-    /* General */
-
     .section {
-        padding: 80px 0;
+        padding: 70px 0;
     }
-
-
-    /* Navbar */
 
     .navbar-container {
         min-height: 70px;
     }
 
     .nav-menu {
-        display: none;
+        position: absolute;
+        top: 70px;
+        left: 0;
+        width: 100%;
+        background: var(--background-light);
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0;
+        padding: 15px 0;
+        transform: translateY(-150%);
+        transition: transform 0.3s ease;
+        z-index: 999;
     }
 
-    .nav-button {
-        padding: 10px 14px;
-        font-size: 12px;
+    .nav-menu.active {
+        transform: translateY(0);
     }
-.menu-toggle {
-    display: block;
-}
 
-    /* Logo */
+    .nav-menu a {
+        width: 100%;
+        text-align: center;
+        padding: 12px;
+    }
+
+    .nav-menu a:hover {
+        background: rgba(37, 99, 235, 0.1);
+    }
+
+    .menu-toggle {
+        display: block;
+    }
 
     .logo {
         font-size: 18px;
     }
 
-
-    /* Hero */
-
     .hero {
-        padding-top: 100px;
+        padding-top: 90px;
     }
 
     .hero h1 {
-        font-size: 46px;
-        letter-spacing: -2px;
+        font-size: 42px;
+        letter-spacing: -1.5px;
     }
 
     .hero-description {
@@ -176,134 +165,60 @@
         height: 350px;
     }
 
-
-    /* Section Heading */
-
     .section-heading {
-        margin-bottom: 40px;
+        margin-bottom: 35px;
     }
 
     .section-heading h2 {
-        font-size: 40px;
+        font-size: 36px;
     }
-
-
-    /* Stats */
 
     .about-stats {
         grid-template-columns: 1fr 1fr;
     }
 
-    .stat {
-        padding: 20px;
-    }
-
-    .stat h3 {
-        font-size: 34px;
-    }
-
-
-    /* Capabilities */
-
     .capability-grid {
         grid-template-columns: 1fr;
     }
-
-    .capability-card {
-        min-height: auto;
-    }
-
-    .capability-card h3 {
-        margin-top: 50px;
-    }
-
-
-    /* Products */
 
     .product-grid {
         grid-template-columns: 1fr;
     }
 
-    .product-image {
-        height: 250px;
-    }
-
-
-    /* Industries */
-
     .industry-grid {
         grid-template-columns: 1fr;
     }
 
-    .industry-item {
-        min-height: 180px;
+    .form-row-2 {
+        grid-template-columns: 1fr;
     }
-
-
-    /* Contact */
-
-    .contact-container {
-        gap: 40px;
-    }
-
-    .contact-content h2 {
-        font-size: 42px;
-    }
-
-
-    /* Footer */
 
     .footer-content {
-        flex-direction: column;
-        align-items: flex-start;
+        grid-template-columns: 1fr;
     }
 
+    .footer-bottom {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
 }
-
 
 /* =========================================
    SMALL MOBILE
    Screens below 480px
 ========================================= */
-
 @media (max-width: 480px) {
-
-    /* Container */
-
     .container {
         width: 90%;
-    }
-
-
-    /* Navbar */
-
-    .navbar-container {
-        gap: 10px;
     }
 
     .logo {
         font-size: 16px;
     }
 
-    .logo span {
-        font-size: 7px;
-        letter-spacing: 3px;
-    }
-
-    .nav-button {
-        padding: 9px 12px;
-        font-size: 11px;
-    }
-
-
-    /* Hero */
-
     .hero h1 {
-        font-size: 38px;
-    }
-
-    .hero-description {
-        font-size: 14px;
+        font-size: 34px;
     }
 
     .hero-buttons {
@@ -316,72 +231,10 @@
     }
 
     .hero-3d {
-        height: 300px;
+        height: 280px;
     }
-
-
-    /* Stats */
 
     .about-stats {
         grid-template-columns: 1fr;
     }
-
-
-    /* Section Heading */
-
-    .section-heading h2 {
-        font-size: 34px;
-    }
-
-
-    /* Contact */
-
-    .contact-content h2 {
-        font-size: 36px;
-    }
-
-}
-
-/* =========================================
-   MOBILE NAVIGATION
-========================================= */
-
-@media (max-width: 768px) {
-
-    .nav-menu {
-        position: absolute;
-        top: 70px;
-        left: 0;
-        width: 100%;
-
-        background: var(--background-light);
-
-        border-bottom: 1px solid var(--border);
-
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-
-        gap: 0;
-
-        padding: 20px 0;
-
-        transform: translateY(-150%);
-        transition: 0.3s ease;
-    }
-
-    .nav-menu.active {
-        transform: translateY(0);
-    }
-
-    .nav-menu a {
-        width: 100%;
-        text-align: center;
-        padding: 14px;
-    }
-
-    .nav-menu a:hover {
-        background: rgba(37, 99, 235, 0.1);
-    }
-
 }
