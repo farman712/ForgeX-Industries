@@ -15,11 +15,16 @@
       name="description"
       content="ForgeX Industries delivers precision engineering and advanced manufacturing solutions for modern industries." />
 
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+
     <!-- Main CSS -->
-    <link rel="stylesheet" href="CSS/style.css" />
+    <link rel="stylesheet" href="css/style.css" />
 
     <!-- Responsive CSS -->
-    <link rel="stylesheet" href="CSS/responsive.css" />
+    <link rel="stylesheet" href="css/responsive.css" />
 
     <!-- CRITICAL: Three.js Import Map -->
     <script type="importmap">
@@ -30,37 +35,40 @@
         }
       }
     </script>
-
   </head>
 
   <body>
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="toast-container"></div>
+
     <!-- ================================
          NAVIGATION
     ================================= -->
     <header class="navbar">
       <div class="container navbar-container">
         <!-- Logo -->
-        <a href="#" class="logo">
+        <a href="#home" class="logo">
           FORGEX
           <span>INDUSTRIES</span>
         </a>
 
         <!-- Navigation -->
         <nav class="nav-menu">
-          <a href="#home">Home</a>
-          <a href="#about">About</a>
-          <a href="#capabilities">Capabilities</a>
-          <a href="#products">Products</a>
-          <a href="#industries">Industries</a>
-          <a href="#contact">Contact</a>
+          <a href="#home" class="nav-link active">Home</a>
+          <a href="#about" class="nav-link">About</a>
+          <a href="#capabilities" class="nav-link">Capabilities</a>
+          <a href="#products" class="nav-link">Products</a>
+          <a href="#industries" class="nav-link">Industries</a>
+          <a href="#contact" class="nav-link">Contact</a>
         </nav>
+
         <!-- Mobile Menu Button -->
         <button class="menu-toggle" aria-label="Open navigation menu">
           ☰
         </button>
 
         <!-- Quote Button -->
-        <a href="#contact" class="nav-button"> Get a Quote </a>
+        <button class="nav-button open-quote-modal">Get a Quote</button>
       </div>
     </header>
 
@@ -87,7 +95,7 @@
 
             <div class="hero-buttons">
               <a href="#products" class="btn btn-primary"> Explore Products </a>
-              <a href="#contact" class="btn btn-secondary"> Request a Quote </a>
+              <button class="btn btn-secondary open-quote-modal"> Request a Quote </button>
             </div>
           </div>
 
@@ -126,21 +134,21 @@
                 to deliver reliable solutions for demanding industries.
               </p>
 
-              <!-- Statistics -->
+              <!-- Statistics (Clickable for details) -->
               <div class="about-stats">
-                <div class="stat">
+                <div class="stat" data-stat="experience">
                   <h3>15+</h3>
                   <p>Years Experience</p>
                 </div>
-                <div class="stat">
+                <div class="stat" data-stat="products">
                   <h3>500+</h3>
                   <p>Products Delivered</p>
                 </div>
-                <div class="stat">
+                <div class="stat" data-stat="machines">
                   <h3>50+</h3>
                   <p>Manufacturing Machines</p>
                 </div>
-                <div class="stat">
+                <div class="stat" data-stat="markets">
                   <h3>20+</h3>
                   <p>Global Markets</p>
                 </div>
@@ -148,10 +156,11 @@
             </div>
 
             <!-- Factory Image -->
-            <div class="factory-image">
+            <div class="factory-image" id="factory-img-box">
               <img
-                src="./images/factory/forgexmanufacturingfactory.jpg"
+                src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=1000&q=80"
                 alt="ForgeX Manufacturing Facility" />
+              <div class="factory-badge">Click to View Facility Specs</div>
             </div>
           </div>
         </div>
@@ -171,10 +180,10 @@
           </div>
 
           <div class="capability-grid">
-            <article class="capability-card">
+            <article class="capability-card" data-cap="cnc">
               <div class="card-image">
                 <img
-                  src="./images/products/cnc-machining.jpg"
+                  src="https://images.unsplash.com/photo-1565043589221-1a6fd9ae45c7?auto=format&fit=crop&w=1000&q=80"
                   alt="CNC Machining" />
               </div>
               <span class="card-number">01</span>
@@ -183,12 +192,13 @@
                 High-precision CNC machining for complex industrial components
                 and assemblies.
               </p>
+              <button class="card-btn">Inspect Specs & Equipment →</button>
             </article>
 
-            <article class="capability-card">
+            <article class="capability-card" data-cap="precision">
               <div class="card-image">
                 <img
-                  src="./images/products/precision engineering.jpg"
+                  src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1000&q=80"
                   alt="Precision Engineering" />
               </div>
               <span class="card-number">02</span>
@@ -197,12 +207,13 @@
                 Engineering solutions designed around demanding performance
                 requirements.
               </p>
+              <button class="card-btn">Inspect Specs & Equipment →</button>
             </article>
 
-            <article class="capability-card">
+            <article class="capability-card" data-cap="metal">
               <div class="card-image">
                 <img
-                  src="./images/products/metalfabrication.jpg"
+                  src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1000&q=80"
                   alt="Metal Fabrication" />
               </div>
               <span class="card-number">03</span>
@@ -211,12 +222,13 @@
                 Reliable fabrication and finishing solutions for industrial
                 applications.
               </p>
+              <button class="card-btn">Inspect Specs & Equipment →</button>
             </article>
 
-            <article class="capability-card">
+            <article class="capability-card" data-cap="custom">
               <div class="card-image">
                 <img
-                  src="./images/products/custommanufacturing.jpg"
+                  src="https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=1000&q=80"
                   alt="Custom Manufacturing" />
               </div>
               <span class="card-number">04</span>
@@ -225,6 +237,7 @@
                 Custom components developed according to customer specifications
                 and drawings.
               </p>
+              <button class="card-btn">Inspect Specs & Equipment →</button>
             </article>
           </div>
         </div>
@@ -244,42 +257,93 @@
           </div>
 
           <div class="product-grid">
-            <article class="product-card">
+            <!-- Product 1 -->
+            <article class="product-card" data-product="cnc-components">
               <div class="product-image">
                 <img
-                  src="images/products/cnccomponenet.jpg"
+                  src="https://images.unsplash.com/photo-1541185933-ef5d8ed016c2?auto=format&fit=crop&w=1000&q=80"
                   alt="CNC Components" />
               </div>
               <div class="product-info">
                 <p>01</p>
                 <h3>CNC Components</h3>
-                <a href="#"> View Product → </a>
+                <span class="product-spec-tag">Ti-6Al-4V | ±0.002mm</span>
+                <button class="product-link-btn">View Product Details →</button>
               </div>
             </article>
 
-            <article class="product-card">
+            <!-- Product 2 -->
+            <article class="product-card" data-product="industrial-parts">
               <div class="product-image">
                 <img
-                  src="images/products/industrialparts.jpg"
+                  src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1000&q=80"
                   alt="Industrial Parts" />
               </div>
               <div class="product-info">
                 <p>02</p>
-                <h3>Industrial Parts</h3>
-                <a href="#"> View Product → </a>
+                <h3>Industrial Valve Assemblies</h3>
+                <span class="product-spec-tag">Inconel 718 | 15,000 PSI</span>
+                <button class="product-link-btn">View Product Details →</button>
               </div>
             </article>
 
-            <article class="product-card">
+            <!-- Product 3 -->
+            <article class="product-card" data-product="gear-assemblies">
               <div class="product-image">
                 <img
-                  src="images/products/gearassembly.jpg"
+                  src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=1000&q=80"
                   alt="Gear Assembly" />
               </div>
               <div class="product-info">
                 <p>03</p>
-                <h3>Gear Assemblies</h3>
-                <a href="#"> View Product → </a>
+                <h3>Harmonic Gear Assemblies</h3>
+                <span class="product-spec-tag">7075-T6 | &lt;1 Arcmin</span>
+                <button class="product-link-btn">View Product Details →</button>
+              </div>
+            </article>
+
+            <!-- Product 4 -->
+            <article class="product-card" data-product="brake-rotors">
+              <div class="product-image">
+                <img
+                  src="https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&w=1000&q=80"
+                  alt="Carbon Brake Rotors" />
+              </div>
+              <div class="product-info">
+                <p>04</p>
+                <h3>Carbon Ceramic Rotors</h3>
+                <span class="product-spec-tag">C/SiC Composite | 1250°C</span>
+                <button class="product-link-btn">View Product Details →</button>
+              </div>
+            </article>
+
+            <!-- Product 5 -->
+            <article class="product-card" data-product="milling-spindle">
+              <div class="product-image">
+                <img
+                  src="https://images.unsplash.com/photo-1611532736597-de2d4265fba3?auto=format&fit=crop&w=1000&q=80"
+                  alt="High Speed Spindle" />
+              </div>
+              <div class="product-info">
+                <p>05</p>
+                <h3>High-Speed CNC Spindles</h3>
+                <span class="product-spec-tag">48,000 RPM | Ceramic Bearings</span>
+                <button class="product-link-btn">View Product Details →</button>
+              </div>
+            </article>
+
+            <!-- Product 6 -->
+            <article class="product-card" data-product="modular-chassis">
+              <div class="product-image">
+                <img
+                  src="https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?auto=format&fit=crop&w=1000&q=80"
+                  alt="Modular Chassis" />
+              </div>
+              <div class="product-info">
+                <p>06</p>
+                <h3>DMLS 3D Printed Chassis</h3>
+                <span class="product-spec-tag">Scalmalloy | ITAR Grade</span>
+                <button class="product-link-btn">View Product Details →</button>
               </div>
             </article>
           </div>
@@ -296,32 +360,32 @@
             <h2>Powering <span>Critical Industries</span></h2>
           </div>
           <div class="industry-grid">
-            <div class="industry-item">
+            <div class="industry-item" data-industry="automotive">
               <div class="industry-image">
-                <img src="images/industries/automotive1.jpg" alt="Automotive" />
+                <img src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=1000&q=80" alt="Automotive" />
               </div>
-              <h3>Automotive</h3>
+              <h3>Automotive & EV</h3>
             </div>
 
-            <div class="industry-item">
+            <div class="industry-item" data-industry="construction">
               <div class="industry-image">
-                <img src="images/industries/constructions.jpg" alt="Construction" />
+                <img src="https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?auto=format&fit=crop&w=1000&q=80" alt="Construction" />
               </div>
-              <h3>Construction</h3>
+              <h3>Construction & Robotics</h3>
             </div>
 
-            <div class="industry-item">
+            <div class="industry-item" data-industry="energy">
               <div class="industry-image">
-                <img src="images/industries/energy.jpg" alt="Energy" />
+                <img src="https://images.unsplash.com/photo-1466611653911-95081537e5b7?auto=format&fit=crop&w=1000&q=80" alt="Energy" />
               </div>
               <h3>Energy & Power</h3>
             </div>
 
-            <div class="industry-item">
+            <div class="industry-item" data-industry="engineering">
               <div class="industry-image">
-                <img src="images/industries/engineering.jpg" alt="Heavy Engineering" />
+                <img src="https://images.unsplash.com/photo-1517976487492-5750f3195933?auto=format&fit=crop&w=1000&q=80" alt="Heavy Engineering" />
               </div>
-              <h3>Heavy Engineering</h3>
+              <h3>Aerospace & Heavy Engineering</h3>
             </div>
           </div>
         </div>
@@ -340,22 +404,22 @@
             </h2>
             <p>
               Tell us about your manufacturing requirements and our engineering
-              team will get in touch.
+              team will get in touch with a detailed proposal within 2 hours.
             </p>
           </div>
 
-          <form class="contact-form">
-            <input type="text" placeholder="Your Name" required />
-            <input type="email" placeholder="Business Email" required />
-            <input type="text" placeholder="Company Name" />
-            <textarea placeholder="Tell us about your requirement" rows="5"></textarea>
+          <form class="contact-form" id="main-contact-form">
+            <input type="text" id="contact-name" placeholder="Your Name" required />
+            <input type="email" id="contact-email" placeholder="Business Email" required />
+            <input type="text" id="contact-company" placeholder="Company Name" />
+            <textarea id="contact-msg" placeholder="Tell us about your project requirements or CAD specifications" rows="5" required></textarea>
             <button type="submit" class="btn btn-primary">Send Enquiry</button>
           </form>
         </div>
       </section>
     </main>
 
-    <<!-- ================================
+    <!-- ================================
      FOOTER
 ================================= -->
 <footer class="footer">
@@ -381,10 +445,10 @@
 
           <!-- LinkedIn -->
           <a
-            href="https://www.linkedin.com/"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="social-btn"
+            href="#"
+            class="social-btn open-info-modal"
+            data-title="ForgeX Official LinkedIn"
+            data-content="Connect with ForgeX Industries on LinkedIn for technical whitepapers, manufacturing case studies, and engineering updates."
             aria-label="LinkedIn"
           >
             <svg
@@ -399,10 +463,10 @@
 
           <!-- Instagram -->
           <a
-            href="https://www.instagram.com/"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="social-btn"
+            href="#"
+            class="social-btn open-info-modal"
+            data-title="ForgeX Instagram Gallery"
+            data-content="Follow @ForgeXIndustries on Instagram for behind-the-scenes videos of 5-axis CNC machining, DMLS 3D metal printing, and cleanroom assembly."
             aria-label="Instagram"
           >
             <svg
@@ -440,10 +504,10 @@
 
         <h4>Capabilities</h4>
 
-        <a href="#capabilities">CNC Machining</a>
-        <a href="#capabilities">Precision Engineering</a>
-        <a href="#capabilities">Metal Fabrication</a>
-        <a href="#capabilities">Custom Manufacturing</a>
+        <a href="#capabilities" class="open-cap-direct" data-cap="cnc">CNC Machining</a>
+        <a href="#capabilities" class="open-cap-direct" data-cap="precision">Precision Engineering</a>
+        <a href="#capabilities" class="open-cap-direct" data-cap="metal">Metal Fabrication</a>
+        <a href="#capabilities" class="open-cap-direct" data-cap="custom">Custom Manufacturing</a>
 
       </div>
 
@@ -486,14 +550,183 @@
       </p>
 
       <div class="footer-bottom-links">
-        <a href="#">Privacy Policy</a>
-        <a href="#">Terms & Conditions</a>
+        <a href="#" class="open-info-modal" data-title="Privacy Policy" data-content="ForgeX Industries complies with strict global data privacy standards. All customer CAD files, technical drawings, and quotes are protected under strict 256-bit AES encryption and non-disclosure agreements (NDAs).">Privacy Policy</a>
+        <a href="#" class="open-info-modal" data-title="Terms & Conditions" data-content="All purchase orders and manufacturing contracts placed with ForgeX Industries are subject to standard ISO 9001:2015 quality inspection standards, dimensional tolerances, and contractual delivery terms.">Terms & Conditions</a>
       </div>
 
     </div>
 
   </div>
 </footer>
+
+
+<!-- =========================================
+     INTERACTIVE MODALS
+========================================= -->
+
+<!-- 1. PRODUCT DETAILS MODAL -->
+<div class="modal-overlay" id="product-modal">
+  <div class="modal-box">
+    <button class="modal-close" data-close="product-modal" aria-label="Close modal">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+    </button>
+    <div class="modal-grid">
+      <div class="modal-media">
+        <img id="p-img" src="" alt="Product Image" />
+      </div>
+      <div class="modal-details">
+        <span class="modal-tag" id="p-tag">PRODUCT SPECS</span>
+        <h2 id="p-title">Product Name</h2>
+        <p id="p-desc">Product detailed description...</p>
+        
+        <div class="spec-table-wrap">
+          <h4>Technical Parameters</h4>
+          <table class="spec-table" id="p-table"></table>
+        </div>
+
+        <div class="modal-actions">
+          <button class="btn btn-primary open-quote-modal">Request Price Quote for Part</button>
+          <button class="btn btn-secondary" id="download-cad-btn">Download CAD STEP File</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 2. CAPABILITY MODAL -->
+<div class="modal-overlay" id="capability-modal">
+  <div class="modal-box">
+    <button class="modal-close" data-close="capability-modal" aria-label="Close modal">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+    </button>
+    <div class="modal-grid">
+      <div class="modal-media">
+        <img id="c-img" src="" alt="Capability Machinery" />
+      </div>
+      <div class="modal-details">
+        <span class="modal-tag">MANUFACTURING PROCESS</span>
+        <h2 id="c-title">Capability Title</h2>
+        <p id="c-desc">Capability detail description...</p>
+
+        <div class="spec-table-wrap">
+          <h4>Machining Parameters & Tolerances</h4>
+          <ul class="cap-spec-list" id="c-list"></ul>
+        </div>
+
+        <div class="modal-actions">
+          <button class="btn btn-primary open-quote-modal">Consult Machine Engineers</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 3. INDUSTRY MODAL -->
+<div class="modal-overlay" id="industry-modal">
+  <div class="modal-box">
+    <button class="modal-close" data-close="industry-modal" aria-label="Close modal">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+    </button>
+    <div class="modal-grid">
+      <div class="modal-media">
+        <img id="ind-img" src="" alt="Industry Sector" />
+      </div>
+      <div class="modal-details">
+        <span class="modal-tag" id="ind-cert">CERTIFIED SECTOR</span>
+        <h2 id="ind-title">Industry Sector</h2>
+        <p id="ind-desc">Sector overview...</p>
+
+        <div class="spec-table-wrap">
+          <h4>Manufactured Components for Sector:</h4>
+          <ul class="cap-spec-list" id="ind-parts"></ul>
+        </div>
+
+        <div class="modal-actions">
+          <button class="btn btn-primary open-quote-modal">Get Sector Custom Quote</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 4. GET A QUOTE MODAL -->
+<div class="modal-overlay" id="quote-modal">
+  <div class="modal-box modal-form-box">
+    <button class="modal-close" data-close="quote-modal" aria-label="Close modal">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+    </button>
+    <div class="modal-header-simple">
+      <h2>Instant RFQ & Technical Proposal</h2>
+      <p>Submit your CAD parameters and manufacturing requirements for a fast quote.</p>
+    </div>
+
+    <form class="quote-dialog-form" id="rfq-dialog-form">
+      <div class="form-row-2">
+        <div class="form-field">
+          <label>Process Required:</label>
+          <select id="rfq-process">
+            <option>CNC Machining (5-Axis)</option>
+            <option>Precision Engineering</option>
+            <option>Metal Fabrication</option>
+            <option>Custom Manufacturing</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label>Alloy / Material:</label>
+          <select id="rfq-material">
+            <option>Titanium Grade 5 (Ti-6Al-4V)</option>
+            <option>Aluminum 7075-T6</option>
+            <option>Inconel 718 Superalloy</option>
+            <option>Stainless Steel 316L</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row-2">
+        <div class="form-field">
+          <label>Quantity (Units):</label>
+          <input type="number" value="50" min="1" max="10000" id="rfq-qty-num" required />
+        </div>
+        <div class="form-field">
+          <label>Tolerance Required:</label>
+          <select id="rfq-tolerance-sel">
+            <option>Sub-Micron ±0.002 mm</option>
+            <option>Precision ±0.005 mm</option>
+            <option>Standard ±0.01 mm</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-field">
+        <label>Your Name & Email:</label>
+        <div class="form-row-2">
+          <input type="text" placeholder="Full Name" required id="rfq-user-name" />
+          <input type="email" placeholder="Business Email" required id="rfq-user-email" />
+        </div>
+      </div>
+
+      <div class="form-field">
+        <label>Additional Specs / Note:</label>
+        <textarea rows="3" placeholder="Describe surface finish, heat treatment, or CAD link..."></textarea>
+      </div>
+
+      <button type="submit" class="btn btn-primary full-width-btn">Submit Proposal Request</button>
+    </form>
+  </div>
+</div>
+
+<!-- 5. GENERAL INFO / LEGAL MODAL -->
+<div class="modal-overlay" id="info-modal">
+  <div class="modal-box modal-small-box">
+    <button class="modal-close" data-close="info-modal" aria-label="Close modal">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+    </button>
+    <div class="info-modal-content">
+      <h2 id="info-title">Information</h2>
+      <div id="info-body" class="info-body-text"></div>
+    </div>
+  </div>
+</div>
 
 
 <!-- JavaScript -->
