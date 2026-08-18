@@ -1,6 +1,16 @@
 import * as THREE from "three";
-import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
+
+/* ==========================================================================
+   ForgeX Industries — Precision Gyroscope Engine
+   A cinematic 3D hero scene featuring a gyroscopic precision assembly:
+   • Three nested orbital rings at different inclinations
+   • Central turbine disc with machined gear-tooth geometry
+   • Inner rotating precision core sphere
+   • 600 floating metallic spark particles
+   • Holographic polar grid platform
+   • Full mouse parallax interaction
+   ========================================================================== */
 
 function initForgeX3D() {
     let container = document.getElementById("three-container");
@@ -12,564 +22,446 @@ function initForgeX3D() {
             container.id = "three-container";
             hero3d.appendChild(container);
         } else {
-            console.error("Error: .hero-3d element page par nahi mila!");
+            console.error("ForgeX 3D: .hero-3d not found");
             return;
         }
     }
 
-    container.style.width = "100%";
-    container.style.minHeight = "450px";
+    container.style.width  = "100%";
     container.style.height = "100%";
     container.style.display = "block";
 
-    const width = container.clientWidth || window.innerWidth || 500;
-    const height = container.clientHeight || window.innerHeight || 500;
+    const W = container.clientWidth  || 500;
+    const H = container.clientHeight || 500;
 
-    /* =========================================
-       1. SCENE & CAMERA (Space Atmosphere)
-    ========================================= */
+    /* ── Scene ── */
     const scene = new THREE.Scene();
-    scene.fog = new THREE.FogExp2(0x030712, 0.028);
+    scene.fog = new THREE.FogExp2(0x060b14, 0.018);
 
-    const camera = new THREE.PerspectiveCamera(40, width / height, 0.1, 100);
-    camera.position.set(0, 0.4, 6.2);
+    /* ── Camera ── */
+    const camera = new THREE.PerspectiveCamera(38, W / H, 0.1, 120);
+    camera.position.set(0, 0.5, 7.0);
     camera.lookAt(0, 0, 0);
 
-    /* =========================================
-       2. RENDERER (Studio Quality & Tone Mapping)
-    ========================================= */
-    const renderer = new THREE.WebGLRenderer({
-        antialias: true,
-        alpha: true,
-        powerPreference: "high-performance"
-    });
-
+    /* ── Renderer ── */
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: "high-performance" });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.setSize(width, height);
-    renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.35;
-    renderer.outputColorSpace = THREE.SRGBColorSpace;
-    renderer.shadowMap.enabled = true;
-    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-
-    renderer.domElement.style.width = "100%";
-    renderer.domElement.style.height = "100%";
-
+    renderer.setSize(W, H);
+    renderer.toneMapping        = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.4;
+    renderer.outputColorSpace   = THREE.SRGBColorSpace;
+    renderer.shadowMap.enabled  = true;
+    renderer.shadowMap.type     = THREE.PCFSoftShadowMap;
     container.innerHTML = "";
     container.appendChild(renderer.domElement);
 
-    /* =========================================
-       3. ENVIRONMENT & STUDIO REFLECTIONS
-    ========================================= */
-    const pmremGenerator = new THREE.PMREMGenerator(renderer);
-    pmremGenerator.compileEquirectangularShader();
+    /* ── Environment ── */
+    const pmrem   = new THREE.PMREMGenerator(renderer);
     const roomEnv = new RoomEnvironment(renderer);
-    scene.environment = pmremGenerator.fromScene(roomEnv).texture;
+    scene.environment = pmrem.fromScene(roomEnv).texture;
 
-    /* =========================================
-       4. CYBER-STUDIO LIGHTING RIG
-    ========================================= */
-    const keyLight = new THREE.DirectionalLight(0xffffff, 4.5);
-    keyLight.position.set(4, 6, 5);
+    /* ════════════════════════════════════════
+       MATERIALS
+    ════════════════════════════════════════ */
+    const matObsidian = new THREE.MeshStandardMaterial({
+        color: 0x0d1520, metalness: 0.95, roughness: 0.12
+    });
+    const matChrome = new THREE.MeshStandardMaterial({
+        color: 0xd0dce8, metalness: 1.0, roughness: 0.06
+    });
+    const matCyanGlow = new THREE.MeshStandardMaterial({
+        color: 0x00f2fe, emissive: 0x00f2fe, emissiveIntensity: 3.2,
+        metalness: 0.0, roughness: 0.0
+    });
+    const matGoldAccent = new THREE.MeshStandardMaterial({
+        color: 0xd4a24c, metalness: 1.0, roughness: 0.08
+    });
+    const matRingA = new THREE.MeshStandardMaterial({
+        color: 0xb8c8d8, metalness: 0.98, roughness: 0.08
+    });
+    const matRingB = new THREE.MeshStandardMaterial({
+        color: 0x8eaec2, metalness: 0.98, roughness: 0.1
+    });
+    const matRingC = new THREE.MeshStandardMaterial({
+        color: 0xc8d8e4, metalness: 0.96, roughness: 0.1
+    });
+
+    /* ════════════════════════════════════════
+       LIGHTING RIG
+    ════════════════════════════════════════ */
+    const keyLight = new THREE.DirectionalLight(0xffffff, 5.5);
+    keyLight.position.set(5, 8, 6);
     keyLight.castShadow = true;
-    keyLight.shadow.mapSize.width = 2048;
-    keyLight.shadow.mapSize.height = 2048;
-    keyLight.shadow.bias = -0.0001;
     scene.add(keyLight);
 
-    const cyanRimLight = new THREE.DirectionalLight(0x00f2fe, 4.2);
-    cyanRimLight.position.set(-5, 4, -2);
-    scene.add(cyanRimLight);
+    const cyanRim = new THREE.DirectionalLight(0x00f2fe, 5.0);
+    cyanRim.position.set(-6, 3, -3);
+    scene.add(cyanRim);
 
-    const purpleFillLight = new THREE.DirectionalLight(0x7928ca, 3.5);
-    purpleFillLight.position.set(-3, -2, 4);
-    scene.add(purpleFillLight);
+    const warmFill = new THREE.DirectionalLight(0xffd9a0, 2.2);
+    warmFill.position.set(3, -3, 5);
+    scene.add(warmFill);
 
-    const topSpotlight = new THREE.SpotLight(0x38bdf8, 5.0, 12, Math.PI / 5, 0.4);
-    topSpotlight.position.set(0, 5, 2);
-    scene.add(topSpotlight);
+    const bottomUp = new THREE.DirectionalLight(0x1a3a5c, 2.0);
+    bottomUp.position.set(0, -5, 0);
+    scene.add(bottomUp);
 
-    const ambientLight = new THREE.AmbientLight(0x0f172a, 1.2);
-    scene.add(ambientLight);
+    scene.add(new THREE.AmbientLight(0x0a1628, 1.5));
 
-    /* =========================================
-       5. COSMIC SPACE ENVIRONMENT (Stars & Nebula Dust)
-    ========================================= */
+    /* Cyan point light inside the gyro core */
+    const coreGlow = new THREE.PointLight(0x00f2fe, 8.0, 6.0);
+    coreGlow.position.set(0, 0, 0);
+    scene.add(coreGlow);
+
+    /* ════════════════════════════════════════
+       STARFIELD
+    ════════════════════════════════════════ */
     const spaceGroup = new THREE.Group();
     scene.add(spaceGroup);
 
-    // Deep Space Starfield Particles
-    const starCount = 1200;
-    const starGeo = new THREE.BufferGeometry();
-    const starPos = new Float32Array(starCount * 3);
-    const starColors = new Float32Array(starCount * 3);
-
-    const colorPalette = [
-        new THREE.Color(0x38bdf8), // Cyan
-        new THREE.Color(0x818cf8), // Indigo
-        new THREE.Color(0xc084fc), // Purple
-        new THREE.Color(0xffffff)  // White star
-    ];
-
+    const starCount = 900;
+    const starPos   = new Float32Array(starCount * 3);
     for (let i = 0; i < starCount; i++) {
-        const radius = 3.0 + Math.random() * 8.5;
-        const theta = Math.random() * Math.PI * 2;
-        const phi = Math.acos((Math.random() * 2) - 1);
-
-        starPos[i * 3] = radius * Math.sin(phi) * Math.cos(theta);
-        starPos[i * 3 + 1] = radius * Math.sin(phi) * Math.sin(theta);
-        starPos[i * 3 + 2] = radius * Math.cos(phi);
-
-        const chosenColor = colorPalette[Math.floor(Math.random() * colorPalette.length)];
-        starColors[i * 3] = chosenColor.r;
-        starColors[i * 3 + 1] = chosenColor.g;
-        starColors[i * 3 + 2] = chosenColor.b;
+        const r   = 5 + Math.random() * 10;
+        const θ   = Math.random() * Math.PI * 2;
+        const φ   = Math.acos(Math.random() * 2 - 1);
+        starPos[i*3]   = r * Math.sin(φ) * Math.cos(θ);
+        starPos[i*3+1] = r * Math.sin(φ) * Math.sin(θ);
+        starPos[i*3+2] = r * Math.cos(φ);
     }
-
+    const starGeo = new THREE.BufferGeometry();
     starGeo.setAttribute("position", new THREE.BufferAttribute(starPos, 3));
-    starGeo.setAttribute("color", new THREE.BufferAttribute(starColors, 3));
+    spaceGroup.add(new THREE.Points(starGeo, new THREE.PointsMaterial({
+        color: 0x7ec8e3, size: 0.028, transparent: true, opacity: 0.7
+    })));
 
-    const starMat = new THREE.PointsMaterial({
-        size: 0.035,
-        vertexColors: true,
-        transparent: true,
-        opacity: 0.85,
-        blending: THREE.AdditiveBlending,
-        depthWrite: false
-    });
-
-    const starField = new THREE.Points(starGeo, starMat);
-    spaceGroup.add(starField);
-
-    // Cosmic Dust Ring (Horizontal floating space belt)
-    const dustCount = 450;
-    const dustGeo = new THREE.BufferGeometry();
-    const dustPos = new Float32Array(dustCount * 3);
-
-    for (let i = 0; i < dustCount; i++) {
-        const r = 1.8 + Math.random() * 2.8;
-        const angle = Math.random() * Math.PI * 2;
-        dustPos[i * 3] = Math.cos(angle) * r;
-        dustPos[i * 3 + 1] = (Math.random() - 0.5) * 1.2;
-        dustPos[i * 3 + 2] = Math.sin(angle) * r;
-    }
-    dustGeo.setAttribute("position", new THREE.BufferAttribute(dustPos, 3));
-
-    const dustMat = new THREE.PointsMaterial({
-        color: 0x00f2fe,
-        size: 0.02,
-        transparent: true,
-        opacity: 0.6,
-        blending: THREE.AdditiveBlending,
-        depthWrite: false
-    });
-
-    const dustRing = new THREE.Points(dustGeo, dustMat);
-    spaceGroup.add(dustRing);
-
-    /* =========================================
-       6. HOLOGRAPHIC ENERGY PLATFORM & RINGS
-    ========================================= */
+    /* ════════════════════════════════════════
+       HOLOGRAPHIC PLATFORM
+    ════════════════════════════════════════ */
     const platformGroup = new THREE.Group();
+    platformGroup.position.y = -1.9;
     scene.add(platformGroup);
 
-    // Ground Holographic Grid Disc
-    const gridHelper = new THREE.PolarGridHelper(2.0, 16, 8, 64, 0x00f2fe, 0x7928ca);
-    gridHelper.position.y = -1.15;
-    gridHelper.material.transparent = true;
-    gridHelper.material.opacity = 0.35;
-    platformGroup.add(gridHelper);
+    const grid = new THREE.PolarGridHelper(2.2, 16, 6, 64, 0x00b4cc, 0x004466);
+    grid.material.transparent = true;
+    grid.material.opacity     = 0.28;
+    platformGroup.add(grid);
 
-    // Holographic Energy Ring 1 (Inner Cyan Glow)
-    const ring1Mat = new THREE.MeshBasicMaterial({
-        color: 0x00f2fe,
-        transparent: true,
-        opacity: 0.65,
-        side: THREE.DoubleSide
-    });
-    const ring1 = new THREE.Mesh(new THREE.TorusGeometry(1.25, 0.015, 16, 100), ring1Mat);
-    ring1.rotation.x = Math.PI / 2;
-    ring1.position.y = -1.14;
-    platformGroup.add(ring1);
-
-    // Holographic Energy Ring 2 (Outer Pulsing Purple)
-    const ring2Mat = new THREE.MeshBasicMaterial({
-        color: 0x7928ca,
-        transparent: true,
-        opacity: 0.45,
-        side: THREE.DoubleSide
-    });
-    const ring2 = new THREE.Mesh(new THREE.TorusGeometry(1.65, 0.01, 16, 120), ring2Mat);
-    ring2.rotation.x = Math.PI / 2;
-    ring2.position.y = -1.14;
-    platformGroup.add(ring2);
-
-    // Floating Inclined Tech Orbit Ring with Satellite Nodes
-    const orbitMat = new THREE.MeshBasicMaterial({
-        color: 0x38bdf8,
-        transparent: true,
-        opacity: 0.3
-    });
-    const orbitRing = new THREE.Mesh(new THREE.TorusGeometry(2.1, 0.008, 12, 120), orbitMat);
-    orbitRing.rotation.x = Math.PI / 2.5;
-    orbitRing.rotation.z = Math.PI / 6;
-    orbitRing.position.y = -0.2;
-    platformGroup.add(orbitRing);
-
-    // Satellite Data Nodes on Orbit Ring
-    const nodeGroup = new THREE.Group();
-    const nodeGeo = new THREE.SphereGeometry(0.045, 16, 16);
-    const nodeMat = new THREE.MeshStandardMaterial({
-        color: 0x00f2fe,
-        emissive: 0x00f2fe,
-        emissiveIntensity: 3.0
-    });
-
-    for (let i = 0; i < 3; i++) {
-        const node = new THREE.Mesh(nodeGeo, nodeMat);
-        nodeGroup.add(node);
-    }
-    platformGroup.add(nodeGroup);
-
-    /* =========================================
-       7. ROBOTIC ARM MODEL SETUP
-    ========================================= */
-    const roboticPivot = new THREE.Group();
-    scene.add(roboticPivot);
-
-    let roboticArm = null;
-    let animatedJoints = { forearm: null, wrist: null, leftClaw: null, rightClaw: null };
-
-    let HERO_POS = { x: 0, y: -0.25, z: 0 };
-    let HERO_ROT = { x: THREE.MathUtils.degToRad(8), y: THREE.MathUtils.degToRad(-25) };
-
-    const fallbackArm = createProceduralRoboticArm();
-    roboticArm = fallbackArm;
-    roboticPivot.add(roboticArm);
-    roboticPivot.position.set(HERO_POS.x, HERO_POS.y, HERO_POS.z);
-    roboticPivot.rotation.set(HERO_ROT.x, HERO_ROT.y, 0);
-
-    const loader = new GLTFLoader();
-    loader.load(
-        "models/robotic-arm.glb",
-        function (gltf) {
-            if (fallbackArm) roboticPivot.remove(fallbackArm);
-            roboticArm = gltf.scene;
-            roboticPivot.add(roboticArm);
-
-            // Material upgrades for GLTF model
-            roboticArm.traverse((child) => {
-                if (child.isMesh) {
-                    child.castShadow = true;
-                    child.receiveShadow = true;
-                    if (child.material) {
-                        child.material.envMapIntensity = 2.8;
-                        child.material.roughness = Math.min(child.material.roughness, 0.35);
-                        child.material.metalness = Math.max(child.material.metalness, 0.75);
-                    }
-                }
-            });
-
-            const box = new THREE.Box3().setFromObject(roboticArm);
-            const center = box.getCenter(new THREE.Vector3());
-            const size = box.getSize(new THREE.Vector3());
-            roboticArm.position.sub(center);
-
-            const maxDimension = Math.max(size.x, size.y, size.z);
-            const targetScale = 1.95 / maxDimension;
-            roboticArm.scale.setScalar(targetScale);
-
-            roboticPivot.position.set(HERO_POS.x, HERO_POS.y, HERO_POS.z);
-            roboticPivot.rotation.set(HERO_ROT.x, HERO_ROT.y, 0);
-        },
-        undefined,
-        function (error) {
-            console.warn("GLTF Load Note: Displaying high-detail 3D procedural metallic arm fallback.", error);
-        }
+    /* Thin glowing floor ring */
+    const floorRing = new THREE.Mesh(
+        new THREE.TorusGeometry(1.6, 0.012, 12, 120),
+        new THREE.MeshBasicMaterial({ color: 0x00f2fe, transparent: true, opacity: 0.7 })
     );
+    floorRing.rotation.x = Math.PI / 2;
+    platformGroup.add(floorRing);
 
-    /* =========================================
-       8. PROCEDURAL 3D ROBOTIC ARM BUILDER
-    ========================================= */
-    function createProceduralRoboticArm() {
-        const group = new THREE.Group();
+    const floorRing2 = new THREE.Mesh(
+        new THREE.TorusGeometry(2.2, 0.008, 12, 120),
+        new THREE.MeshBasicMaterial({ color: 0x0080aa, transparent: true, opacity: 0.4 })
+    );
+    floorRing2.rotation.x = Math.PI / 2;
+    platformGroup.add(floorRing2);
 
-        // Ultra-Premium Metallic Materials
-        const obsidianMetal = new THREE.MeshStandardMaterial({
-            color: 0x0f172a,
-            metalness: 0.9,
-            roughness: 0.18,
-            envMapIntensity: 3.0
-        });
+    /* ════════════════════════════════════════
+       MAIN GYROSCOPE GROUP
+    ════════════════════════════════════════ */
+    const gyroMaster = new THREE.Group();
+    scene.add(gyroMaster);
 
-        const chromeMetal = new THREE.MeshStandardMaterial({
-            color: 0xe2e8f0,
-            metalness: 0.98,
-            roughness: 0.1,
-            envMapIntensity: 3.5
-        });
+    /* ── Outer Ring (Horizontal plane) ── */
+    const outerRingGroup = new THREE.Group();
+    gyroMaster.add(outerRingGroup);
 
-        const goldPistonMat = new THREE.MeshStandardMaterial({
-            color: 0xd4af37,
-            metalness: 0.92,
-            roughness: 0.15,
-            envMapIntensity: 2.8
-        });
+    const outerRingMesh = new THREE.Mesh(
+        new THREE.TorusGeometry(1.85, 0.072, 28, 160),
+        matRingA
+    );
+    outerRingGroup.add(outerRingMesh);
 
-        const cyanGlowMat = new THREE.MeshStandardMaterial({
-            color: 0x00f2fe,
-            emissive: 0x00f2fe,
-            emissiveIntensity: 2.8,
-            roughness: 0.1
-        });
-
-        const purpleGlowMat = new THREE.MeshStandardMaterial({
-            color: 0x7928ca,
-            emissive: 0x7928ca,
-            emissiveIntensity: 2.5,
-            roughness: 0.1
-        });
-
-        // 1. Heavy Octagonal Base Pedestal
-        const baseMesh = new THREE.Mesh(new THREE.CylinderGeometry(0.85, 1.0, 0.35, 32), obsidianMetal);
-        baseMesh.position.y = -0.85;
-        baseMesh.castShadow = true;
-        baseMesh.receiveShadow = true;
-        group.add(baseMesh);
-
-        const ringMesh = new THREE.Mesh(new THREE.TorusGeometry(0.88, 0.03, 16, 64), cyanGlowMat);
-        ringMesh.rotation.x = Math.PI / 2;
-        ringMesh.position.y = -0.72;
-        group.add(ringMesh);
-
-        // 2. Swivel Shoulder Joint
-        const shoulderMesh = new THREE.Mesh(new THREE.SphereGeometry(0.48, 32, 32), chromeMetal);
-        shoulderMesh.position.y = -0.4;
-        shoulderMesh.castShadow = true;
-        group.add(shoulderMesh);
-
-        // 3. Primary Upper Arm Segment
-        const arm1Group = new THREE.Group();
-        arm1Group.position.set(0, -0.4, 0);
-
-        const arm1Mesh = new THREE.Mesh(new THREE.CylinderGeometry(0.22, 0.28, 1.5, 24), obsidianMetal);
-        arm1Mesh.position.set(0, 0.75, 0);
-        arm1Mesh.rotation.z = -THREE.MathUtils.degToRad(25);
-        arm1Mesh.castShadow = true;
-        arm1Group.add(arm1Mesh);
-
-        // Hydraulic Gold Cylinder Piston
-        const pistonMesh = new THREE.Mesh(new THREE.CylinderGeometry(0.055, 0.055, 1.1, 16), goldPistonMat);
-        pistonMesh.position.set(0.22, 0.65, 0.1);
-        pistonMesh.rotation.z = -THREE.MathUtils.degToRad(25);
-        arm1Group.add(pistonMesh);
-
-        // 4. Chrome Elbow Joint
-        const elbowMesh = new THREE.Mesh(new THREE.SphereGeometry(0.36, 32, 32), chromeMetal);
-        elbowMesh.position.set(-0.64, 1.4, 0);
-        elbowMesh.castShadow = true;
-        arm1Group.add(elbowMesh);
-
-        // 5. Forearm Segment
-        const forearmGroup = new THREE.Group();
-        forearmGroup.position.set(-0.64, 1.4, 0);
-
-        const forearmMesh = new THREE.Mesh(new THREE.CylinderGeometry(0.18, 0.22, 1.3, 24), obsidianMetal);
-        forearmMesh.position.set(0.38, 0.65, 0);
-        forearmMesh.rotation.z = THREE.MathUtils.degToRad(60);
-        forearmMesh.castShadow = true;
-        forearmGroup.add(forearmMesh);
-
-        const forearmRingMesh = new THREE.Mesh(new THREE.TorusGeometry(0.21, 0.025, 16, 32), purpleGlowMat);
-        forearmRingMesh.rotation.x = Math.PI / 2;
-        forearmRingMesh.position.set(0.38, 0.65, 0);
-        forearmGroup.add(forearmRingMesh);
-
-        // 6. Wrist & End Effector
-        const wristMesh = new THREE.Mesh(new THREE.SphereGeometry(0.22, 24, 24), chromeMetal);
-        wristMesh.position.set(0.9, 1.0, 0);
-        wristMesh.castShadow = true;
-        forearmGroup.add(wristMesh);
-
-        // Precision Dual Claw Grippers
-        const clawGeo = new THREE.BoxGeometry(0.06, 0.32, 0.1);
-        const leftClaw = new THREE.Mesh(clawGeo, chromeMetal);
-        leftClaw.position.set(1.08, 1.15, 0.12);
-        leftClaw.rotation.z = THREE.MathUtils.degToRad(-30);
-        forearmGroup.add(leftClaw);
-
-        const rightClaw = new THREE.Mesh(clawGeo, chromeMetal);
-        rightClaw.position.set(1.08, 1.15, -0.12);
-        rightClaw.rotation.z = THREE.MathUtils.degToRad(-30);
-        forearmGroup.add(rightClaw);
-
-        // Glowing Sci-Fi Laser Tip
-        const laserTip = new THREE.Mesh(new THREE.SphereGeometry(0.06, 16, 16), cyanGlowMat);
-        laserTip.position.set(1.15, 1.2, 0);
-        forearmGroup.add(laserTip);
-
-        arm1Group.add(forearmGroup);
-        group.add(arm1Group);
-
-        group.scale.setScalar(0.82);
-
-        animatedJoints.forearm = forearmGroup;
-        animatedJoints.leftClaw = leftClaw;
-        animatedJoints.rightClaw = rightClaw;
-
-        return group;
+    /* Notches on outer ring */
+    for (let i = 0; i < 24; i++) {
+        const angle  = (i / 24) * Math.PI * 2;
+        const notch  = new THREE.Mesh(
+            new THREE.BoxGeometry(0.045, 0.12, 0.045),
+            matChrome
+        );
+        notch.position.set(Math.cos(angle) * 1.85, Math.sin(angle) * 1.85, 0);
+        notch.rotation.z = angle;
+        outerRingGroup.add(notch);
     }
 
-    /* =========================================
-       9. MOUSE TRACKING & INTERACTIVE SMOOTH LERP
-    ========================================= */
-    let mouseX = 0;
-    let mouseY = 0;
-    let targetMouseX = 0;
-    let targetMouseY = 0;
+    /* Cyan accent strips on outer ring */
+    for (let i = 0; i < 6; i++) {
+        const angle = (i / 6) * Math.PI * 2;
+        const strip = new THREE.Mesh(
+            new THREE.TorusGeometry(1.85, 0.014, 8, 12, 0.22),
+            matCyanGlow
+        );
+        strip.rotation.z = angle;
+        outerRingGroup.add(strip);
+    }
 
-    window.addEventListener("mousemove", (event) => {
-        targetMouseX = (event.clientX / window.innerWidth) * 2 - 1;
-        targetMouseY = -(event.clientY / window.innerHeight) * 2 + 1;
+    /* ── Middle Ring (tilted ~55° on X) ── */
+    const middleRingGroup = new THREE.Group();
+    middleRingGroup.rotation.x = THREE.MathUtils.degToRad(55);
+    middleRingGroup.rotation.z = THREE.MathUtils.degToRad(15);
+    gyroMaster.add(middleRingGroup);
+
+    const middleRingMesh = new THREE.Mesh(
+        new THREE.TorusGeometry(1.38, 0.055, 24, 140),
+        matRingB
+    );
+    middleRingGroup.add(middleRingMesh);
+
+    for (let i = 0; i < 18; i++) {
+        const angle = (i / 18) * Math.PI * 2;
+        const notch = new THREE.Mesh(
+            new THREE.BoxGeometry(0.035, 0.09, 0.035),
+            matChrome
+        );
+        notch.position.set(Math.cos(angle) * 1.38, Math.sin(angle) * 1.38, 0);
+        notch.rotation.z = angle;
+        middleRingGroup.add(notch);
+    }
+
+    /* Gold accent bolts */
+    for (let i = 0; i < 8; i++) {
+        const angle = (i / 8) * Math.PI * 2;
+        const bolt  = new THREE.Mesh(new THREE.SphereGeometry(0.028, 10, 10), matGoldAccent);
+        bolt.position.set(Math.cos(angle) * 1.38, Math.sin(angle) * 1.38, 0);
+        middleRingGroup.add(bolt);
+    }
+
+    /* ── Inner Ring (tilted ~-70° on X, 30° on Y) ── */
+    const innerRingGroup = new THREE.Group();
+    innerRingGroup.rotation.x = THREE.MathUtils.degToRad(-70);
+    innerRingGroup.rotation.y = THREE.MathUtils.degToRad(30);
+    gyroMaster.add(innerRingGroup);
+
+    const innerRingMesh = new THREE.Mesh(
+        new THREE.TorusGeometry(0.95, 0.042, 20, 120),
+        matRingC
+    );
+    innerRingGroup.add(innerRingMesh);
+
+    /* Cyan glow strip on inner ring */
+    const innerGlowRing = new THREE.Mesh(
+        new THREE.TorusGeometry(0.95, 0.01, 10, 120),
+        matCyanGlow
+    );
+    innerRingGroup.add(innerGlowRing);
+
+    /* ── Central Turbine Disc ── */
+    const turbineGroup = new THREE.Group();
+    gyroMaster.add(turbineGroup);
+
+    /* Main disc body */
+    const discBody = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.62, 0.62, 0.14, 64),
+        matObsidian
+    );
+    turbineGroup.add(discBody);
+
+    /* Disc face rings (machined grooves) */
+    const grooveData = [
+        { r: 0.52, w: 0.018, mat: matCyanGlow },
+        { r: 0.38, w: 0.012, mat: matChrome },
+        { r: 0.22, w: 0.016, mat: matCyanGlow },
+    ];
+    grooveData.forEach(({ r, w, mat }) => {
+        [-0.072, 0.072].forEach(yOff => {
+            const groove = new THREE.Mesh(new THREE.TorusGeometry(r, w, 8, 80), mat);
+            groove.rotation.x = Math.PI / 2;
+            groove.position.y = yOff;
+            turbineGroup.add(groove);
+        });
     });
 
-    window.addEventListener("touchmove", (event) => {
-        if (event.touches.length > 0) {
-            targetMouseX = (event.touches[0].clientX / window.innerWidth) * 2 - 1;
-            targetMouseY = -(event.touches[0].clientY / window.innerHeight) * 2 + 1;
-        }
-    }, { passive: true });
+    /* Gear teeth around disc perimeter */
+    const toothCount = 32;
+    for (let i = 0; i < toothCount; i++) {
+        const angle = (i / toothCount) * Math.PI * 2;
+        const tooth = new THREE.Mesh(
+            new THREE.BoxGeometry(0.055, 0.13, 0.065),
+            matChrome
+        );
+        tooth.position.set(Math.cos(angle) * 0.64, 0, Math.sin(angle) * 0.64);
+        tooth.rotation.y = -angle;
+        turbineGroup.add(tooth);
+    }
 
-    /* =========================================
-       10. ANIMATION & RENDER LOOP
-    ========================================= */
+    /* Turbine blade vanes */
+    const bladeCount = 8;
+    for (let i = 0; i < bladeCount; i++) {
+        const angle = (i / bladeCount) * Math.PI * 2;
+        const blade = new THREE.Mesh(
+            new THREE.BoxGeometry(0.032, 0.12, 0.38),
+            matObsidian
+        );
+        blade.position.set(Math.cos(angle) * 0.28, 0, Math.sin(angle) * 0.28);
+        blade.rotation.y = -angle + Math.PI / bladeCount;
+        turbineGroup.add(blade);
+    }
+
+    /* ── Precision Core Sphere ── */
+    const coreSphere = new THREE.Mesh(
+        new THREE.SphereGeometry(0.28, 40, 40),
+        new THREE.MeshStandardMaterial({
+            color: 0x00d4ee,
+            emissive: 0x006688,
+            emissiveIntensity: 1.2,
+            metalness: 0.8,
+            roughness: 0.05
+        })
+    );
+    gyroMaster.add(coreSphere);
+
+    /* Core outer halo ring */
+    const haloRing = new THREE.Mesh(
+        new THREE.TorusGeometry(0.38, 0.008, 8, 80),
+        matCyanGlow
+    );
+    haloRing.rotation.x = Math.PI / 2;
+    gyroMaster.add(haloRing);
+
+    /* ── Axle Pins ── */
+    [-1, 1].forEach(dir => {
+        const pin = new THREE.Mesh(
+            new THREE.CylinderGeometry(0.028, 0.028, 0.25, 16),
+            matChrome
+        );
+        pin.rotation.z = Math.PI / 2;
+        pin.position.x = dir * 1.1;
+        gyroMaster.add(pin);
+
+        const pinTip = new THREE.Mesh(new THREE.SphereGeometry(0.038, 14, 14), matGoldAccent);
+        pinTip.position.x = dir * 1.23;
+        gyroMaster.add(pinTip);
+    });
+
+    [-1, 1].forEach(dir => {
+        const pin = new THREE.Mesh(
+            new THREE.CylinderGeometry(0.022, 0.022, 0.22, 16),
+            matChrome
+        );
+        pin.position.y = dir * 1.1;
+        gyroMaster.add(pin);
+    });
+
+    /* ════════════════════════════════════════
+       FLOATING METALLIC SPARKS
+    ════════════════════════════════════════ */
+    const sparkCount = 600;
+    const sparkPositions = new Float32Array(sparkCount * 3);
+    const sparkVelocities = [];
+
+    for (let i = 0; i < sparkCount; i++) {
+        const θ = Math.random() * Math.PI * 2;
+        const φ = Math.acos(Math.random() * 2 - 1);
+        const r = 1.5 + Math.random() * 3.0;
+        sparkPositions[i*3]   = r * Math.sin(φ) * Math.cos(θ);
+        sparkPositions[i*3+1] = r * Math.sin(φ) * Math.sin(θ) * 0.6;
+        sparkPositions[i*3+2] = r * Math.cos(φ);
+        sparkVelocities.push({
+            x: (Math.random() - 0.5) * 0.003,
+            y: (Math.random() - 0.5) * 0.002,
+            z: (Math.random() - 0.5) * 0.003,
+            originX: sparkPositions[i*3],
+            originY: sparkPositions[i*3+1],
+            originZ: sparkPositions[i*3+2],
+        });
+    }
+
+    const sparkGeo = new THREE.BufferGeometry();
+    sparkGeo.setAttribute("position", new THREE.BufferAttribute(sparkPositions, 3));
+    const sparkField = new THREE.Points(sparkGeo, new THREE.PointsMaterial({
+        color: 0x88ddff,
+        size: 0.022,
+        transparent: true,
+        opacity: 0.65
+    }));
+    scene.add(sparkField);
+
+    /* ════════════════════════════════════════
+       MOUSE PARALLAX
+    ════════════════════════════════════════ */
+    let targetMouseX = 0, targetMouseY = 0;
+    let smoothMouseX = 0, smoothMouseY = 0;
+
+    window.addEventListener("mousemove", (e) => {
+        targetMouseX = (e.clientX / window.innerWidth)  * 2 - 1;
+        targetMouseY = -(e.clientY / window.innerHeight) * 2 + 1;
+    });
+
+    /* ════════════════════════════════════════
+       ANIMATION LOOP
+    ════════════════════════════════════════ */
     const clock = new THREE.Clock();
-    let currentRotX = HERO_ROT.x;
-    let currentRotY = HERO_ROT.y;
-    let currentPosZ = HERO_POS.z;
 
     function animate() {
         requestAnimationFrame(animate);
+        const t = clock.getElapsedTime();
 
-        const time = clock.getElapsedTime();
+        /* Smooth mouse interpolation */
+        smoothMouseX += (targetMouseX - smoothMouseX) * 0.04;
+        smoothMouseY += (targetMouseY - smoothMouseY) * 0.04;
 
-        // Smooth Mouse Lerp
-        mouseX += (targetMouseX - mouseX) * 0.05;
-        mouseY += (targetMouseY - mouseY) * 0.05;
+        /* ── Gyro master gentle sway ── */
+        gyroMaster.rotation.y = t * 0.12 + smoothMouseX * 0.45;
+        gyroMaster.rotation.x = Math.sin(t * 0.3) * 0.08 - smoothMouseY * 0.25;
+        gyroMaster.position.y = Math.sin(t * 0.5) * 0.08;
 
-        // Robotic Arm Movement & Floating Sine Wave
-        if (roboticPivot) {
-            const targetRotX = HERO_ROT.x - mouseY * 0.3;
-            const targetRotY = HERO_ROT.y + mouseX * 0.4 + (time * 0.04);
+        /* ── Ring independent rotations ── */
+        outerRingGroup.rotation.z  = t * 0.28;
+        middleRingGroup.rotation.z = -t * 0.42;
+        innerRingGroup.rotation.z  = t * 0.65;
 
-            currentRotX += (targetRotX - currentRotX) * 0.06;
-            currentRotY += (targetRotY - currentRotY) * 0.06;
+        /* ── Turbine disc spin ── */
+        turbineGroup.rotation.y = t * 1.4;
 
-            const floatY = Math.sin(time * 1.5) * 0.04;
-            const floatZ = Math.cos(time * 1.2) * 0.02;
+        /* ── Core sphere counter-spin ── */
+        coreSphere.rotation.y = -t * 0.9;
+        coreSphere.rotation.z =  t * 0.4;
+        haloRing.rotation.z   =  t * 2.1;
 
-            // Interactive 3D Depth Pop-Out on hover near center
-            const cursorProximity = 1 - Math.hypot(mouseX, mouseY);
-            const targetZ = HERO_POS.z + Math.max(0, cursorProximity) * 0.5;
-            currentPosZ += (targetZ - currentPosZ) * 0.05;
+        /* ── Core glow pulse ── */
+        coreGlow.intensity = 7 + Math.sin(t * 3.5) * 2.5;
 
-            roboticPivot.rotation.x = currentRotX;
-            roboticPivot.rotation.y = currentRotY;
-            roboticPivot.rotation.z = mouseX * -0.04;
+        /* ── Platform ring spin ── */
+        floorRing.rotation.z  = t * 0.4;
+        floorRing2.rotation.z = -t * 0.2;
 
-            roboticPivot.position.y = HERO_POS.y + floatY - mouseY * 0.06;
-            roboticPivot.position.x = HERO_POS.x + mouseX * 0.12;
-            roboticPivot.position.z = currentPosZ + floatZ;
+        /* ── Starfield slow drift ── */
+        spaceGroup.rotation.y = t * 0.012;
+
+        /* ── Floating sparks drift ── */
+        const posArr = sparkGeo.attributes.position.array;
+        for (let i = 0; i < sparkCount; i++) {
+            const v = sparkVelocities[i];
+            posArr[i*3]   += v.x;
+            posArr[i*3+1] += v.y;
+            posArr[i*3+2] += v.z;
+
+            /* Drift back toward origin gently */
+            posArr[i*3]   += (v.originX - posArr[i*3])   * 0.003;
+            posArr[i*3+1] += (v.originY - posArr[i*3+1]) * 0.003;
+            posArr[i*3+2] += (v.originZ - posArr[i*3+2]) * 0.003;
         }
-
-        // Procedural Micro-Kinematics Joint Animations
-        if (animatedJoints.forearm) {
-            animatedJoints.forearm.rotation.z = Math.sin(time * 1.8) * 0.06;
-        }
-        if (animatedJoints.leftClaw && animatedJoints.rightClaw) {
-            const clawSpread = Math.sin(time * 2.5) * 0.02;
-            animatedJoints.leftClaw.position.z = 0.12 + clawSpread;
-            animatedJoints.rightClaw.position.z = -0.12 - clawSpread;
-        }
-
-        // Space Particles & Orbit Animations
-        spaceGroup.rotation.y = time * 0.015;
-        dustRing.rotation.y = -time * 0.03;
-
-        ring1.rotation.z = time * 0.5;
-        ring2.rotation.z = -time * 0.3;
-        ring2Mat.opacity = 0.35 + Math.sin(time * 2.5) * 0.15;
-
-        orbitRing.rotation.z = time * 0.15;
-        orbitRing.rotation.x = Math.PI / 2.5 + Math.sin(time * 0.5) * 0.08;
-
-        // Satellite Nodes Orbit Path Calculation
-        for (let i = 0; i < 3; i++) {
-            const angle = time * 0.6 + (i * (Math.PI * 2 / 3));
-            const nodeRadius = 2.1;
-            const nodeMesh = nodeGroup.children[i];
-            if (nodeMesh) {
-                nodeMesh.position.x = Math.cos(angle) * nodeRadius;
-                nodeMesh.position.z = Math.sin(angle) * nodeRadius;
-                nodeMesh.position.y = -0.2 + Math.sin(angle * 2) * 0.1;
-            }
-        }
-
-        // Dynamic Lighting Parallax Shift
-        cyanRimLight.position.x = -5 + mouseX * 2.5;
-        cyanRimLight.position.y = 4 + mouseY * 2.0;
-        keyLight.position.x = 4 + mouseX * 3.0;
-
-        // Camera Smooth Parallax
-        camera.position.x += (mouseX * 0.2 - camera.position.x) * 0.04;
-        camera.position.y += (0.4 + mouseY * 0.15 - camera.position.y) * 0.04;
-        camera.lookAt(0, 0, 0);
+        sparkGeo.attributes.position.needsUpdate = true;
 
         renderer.render(scene, camera);
     }
 
     animate();
 
-    /* =========================================
-       11. RESPONSIVE RESIZE HANDLING
-    ========================================= */
-    function handleResize() {
-        const w = container.clientWidth || window.innerWidth;
+    /* ── Resize handler ── */
+    window.addEventListener("resize", () => {
+        const w = container.clientWidth  || window.innerWidth;
         const h = container.clientHeight || window.innerHeight;
-
         camera.aspect = w / h;
         camera.updateProjectionMatrix();
-
         renderer.setSize(w, h);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-
-        if (w <= 900) {
-            HERO_POS = { x: 0, y: -0.35, z: 0 };
-        } else {
-            HERO_POS = { x: 0, y: -0.25, z: 0 };
-        }
-    }
-
-    window.addEventListener("resize", handleResize);
-
-    const btnRight = document.getElementById("pos-right");
-    const btnCenter = document.getElementById("pos-center");
-
-    if (btnRight && btnCenter) {
-        btnRight.addEventListener("click", () => {
-            HERO_POS.x = 0.95;
-            HERO_POS.y = -0.25;
-            btnRight.classList.add("active");
-            btnCenter.classList.remove("active");
-        });
-
-        btnCenter.addEventListener("click", () => {
-            HERO_POS.x = 0.0;
-            HERO_POS.y = -0.25;
-            btnCenter.classList.add("active");
-            btnRight.classList.remove("active");
-        });
-    }
+    });
 }
 
 if (document.readyState === "loading") {
